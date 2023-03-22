@@ -1,2 +1,5 @@
 config.py
 .idea/
+
+# Модель распознавания пунктуации в тексте, скачено с https://alphacephei.com/vosk/models
+recasepuncRUS/
