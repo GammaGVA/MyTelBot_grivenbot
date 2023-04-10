@@ -1,11 +1,8 @@
-from os import remove
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.dispatcher.filters import Text
 from keyboard import Keyboards, text_hello, text_help, text_description
 from config import tokenBot
 from weather import get_weather
-from handlers import Photo
-from recasepuncRUS.recasepunc import WordpieceTokenizer
 
 bot = Bot(tokenBot)
 dp = Dispatcher(bot=bot)
@@ -75,43 +72,6 @@ async def callback_weather(callback: types.CallbackQuery) -> None:
     # callback.data = weather_city_text_city
     await callback.message.edit_text(text=f'Погода в {text_city} 🏘\n' + get_weather(city=city))
     await callback.answer()  # Завершаем callback
-
-
-@dp.message_handler(content_types='photo')
-async def message_photo(message: types.Message) -> None:
-    # Функция определитель дальнейших действий с фото
-    photo_id = message.photo[-1].file_id
-    f = await bot.get_file(photo_id)
-    path = f.file_path
-    await message.answer(text='Что сделать с фото?',
-                         reply_markup=kb.photo(path))
-
-
-@dp.callback_query_handler(Text(startswith='phototext_@_'))
-async def callback_photo(callback: types.CallbackQuery) -> None:
-    # Функция вывода распознанного текста на фото
-    path = callback.data.split('_@_')[1]
-    #  callback.data = phototext_@_path
-    await callback.message.edit_text(text='Какой язык на фото?',
-                                     reply_markup=kb.photo_leng(path))
-
-
-@dp.callback_query_handler(Text(startswith='leng_@_'))
-async def callback_text_photo(callback: types.CallbackQuery) -> None:
-    # Функция вывода распознанного текста на фото
-    path = callback.data.split('_@_')[2]
-    lang = callback.data.split('_@_')[1].split('/')
-    # callback.data = leng_@_leng/leng_@_patg
-    img = Photo(path=path, tokenBot=tokenBot)
-    text_img = img.recognition_text(lang=lang)
-    await callback.message.edit_text(text=text_img)
-
-
-@dp.callback_query_handler(Text(startswith='photogray_@_'))
-async def callback_text_photo(callback: types.CallbackQuery) -> None:
-    # Функция перевода чб изображения в цвет
-    await callback.answer(text='Функция пока не реализована.',
-                          show_alert=True)
 
 
 if __name__ == '__main__':

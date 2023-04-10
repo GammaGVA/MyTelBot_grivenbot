@@ -23,21 +23,6 @@ class Keyboards:
         _anna = InlineKeyboardButton(text='Анне', callback_data='weather_anna_Анне')
         return ikb.add(_voronezh, _anna)
 
-    def photo(self, path: str) -> InlineKeyboardMarkup:
-        # Фото
-        ikb = InlineKeyboardMarkup(row_width=2)
-        _text = InlineKeyboardButton(text='Распознать текст.', callback_data=f'phototext_@_{path}')
-        _gray = InlineKeyboardButton(text='Сделать цветной.', callback_data=f'photogray_@_{path}')
-        return ikb.add(_text, _gray)
-
-    def photo_leng(self, path: str) -> InlineKeyboardMarkup:
-        # Функция выбора распознавания языка
-        ikb = InlineKeyboardMarkup(row_width=2)
-        _rus = InlineKeyboardButton(text='Русский', callback_data=f'leng_@_ru_@_{path}')
-        _eng = InlineKeyboardButton(text='Английский', callback_data=f'leng_@_en_@_{path}')
-        _rus_eng = InlineKeyboardButton(text='Русский с английским', callback_data=f'leng_@_ru/en_@_{path}')
-        return ikb.add(_rus, _eng).add(_rus_eng)
-
 
 # Текст/информация кнопок
 # Приветствие
